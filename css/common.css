@@ -1,1 +1,40 @@
-
+/* 공통 스타일 */
+body {
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+.wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+button {
+    cursor: pointer;
+}
+.productName {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+}
+.options select, .options input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.action.purchase button {
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    color: white;
+    margin-right: 10px;
+}
+.action.purchase .progress {
+    background-color: #e63c47;
+}
+.action.purchase button:not(.progress) {
+    background-color: #555;
+}
