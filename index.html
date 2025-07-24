@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta http-equiv="Expires" content="-1" />
+    <title>굿앤 프린팅 (정적 데모)</title>
+    <!-- 경로 수정: 절대경로 -> 상대경로 -->
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/common.css">
+    <link rel="stylesheet" type="text/css" href="css/popup.css">
+    <link rel="stylesheet" type="text/css" href="css/product.css">
+
+    <!-- 로컬 jQuery 추가 -->
+    <script src="js/jquery-3.6.0.min.js"></script>
+    
+    <!-- 외부 CDN 스크립트는 그대로 둠 -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
+    <script>
+      // Kakao.init('YOUR_KAKAO_APP_KEY'); // 실제 사용시 키 필요
+    </script>
+    
+    <!-- 경로 수정: 절대경로 -> 상대경로 -->
+    <script src="js/common.js"></script>
+    <script src="js/product.js"></script>
+
+    <!-- 스타일 일부 추가 (원본 CSS가 없으므로) -->
+    <style>
+        body { background-color: #f5f5f5; }
+        .wrap { max-width: 1200px; margin: 0 auto; }
+        header.common, footer.common { background: white; padding: 20px; }
+        main#main { display: flex; gap: 20px; padding: 20px 0; }
+        .leftWrap, .rightWrap { background: white; padding: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.05); }
+        .leftWrap { flex: 1; }
+        .rightWrap { flex: 2; }
+        .picture .zoom img { max-width: 100%; }
+        .picture ul { display: flex; gap: 10px; list-style: none; padding: 0; margin-top: 10px; }
+        .picture ul .thumb img { width: 73px; height: 73px; border: 1px solid #ddd; cursor: pointer; }
+        .picture ul .thumb.active img { border: 2px solid #337ab7; }
+        .options dl dt { font-weight: bold; margin-top: 15px; }
+    </style>
+</head>
+
+<body>
+    <!-- 헤더, 푸터 등 원본 구조는 유지하되, 기능은 대부분 비활성화됩니다. -->
+    <!-- ... (body 태그 내용은 원본과 거의 동일) ... -->
+    <header class="common">
+        <h1>
+            <a href="#" class="GP">굿프린팅 (정적 데모)</a>
+        </h1>
+        <p>상단 네비게이션 영역 (기능 비활성화)</p>
+    </header>
+
+    <main id="main" class="wrap product nc_card">
+        <div class="wrap" style="display: flex; width: 100%;">
+            <section class="leftWrap">
+                <div class="picture" id="picture">
+                    <div class="zoom">
+                        <!-- 이미지 경로 수정 -->
+                        <img id="pic_view" src="images/product-main.jpg" alt="메인 상품 이미지"/>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="thumb active" data-src="images/product-main.jpg">
+                                <img src="images/product-thumb-1.jpg" alt="썸네일1">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="thumb" data-src="images/product-thumb-2.jpg">
+                                <img src="images/product-thumb-2.jpg" alt="썸네_일2">
+                            </div>
+                        </li>
+                        <li>
+                            <div class="thumb" data-src="images/product-thumb-3.jpg">
+                                <img src="images/product-thumb-3.jpg" alt="썸네일3">
+                            </div>
+                        </li>
+                         <li>
+                            <div class="thumb" data-src="images/product-thumb-4.jpg">
+                                <img src="images/product-thumb-4.jpg" alt="썸네일4">
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mat_preview" id="mat_preview" style="display:none; margin-top: 20px;">
+                    <div class="mat_view zoom">
+                        <h4>재질 보기 (샘플)</h4>
+                        <img id="paper_preview" src="images/paper-preview.jpg" style="width:400px; height:auto;">
+                    </div>
+                </div>       
+            </section>
+            
+            <section class="rightWrap productOptions">
+                <header class="good">
+                    <ol class="location">
+                        <li><span class="en">명함</span></li>
+                        <li><span class="en">카드명함</span></li>
+                    </ol>
+                    <hr>
+                    <h2 id="productName" class="productName">카드명함</h2>
+                    <p class="desc"></p>
+                </header>
+                 <section class="util">
+                    <ul class="function" id="util_btns">
+                         <li>
+                            <button class="cubic guide" type="button" onclick="alert('작업가이드 팝업 (기능 비활성화)');">작업가이드 보기 <i></i></button>
+                        </li>
+                        <li id="mat_btn">
+                            <button class="cubic material" type="button" onclick="$('#mat_preview').toggle();">재질 보기 <i></i></button>
+                        </li>
+                    </ul>
+                </section>
+                <!-- NOTE: form 태그의 action은 정적 사이트에서 작동하지 않습니다. -->
+                <form id="frm" action="#" method="post" onsubmit="return false;">
+                    <ul class="options">
+                        <li>
+                            <h2 class="order_title_basic">기본<br>사항</h2>
+                            <div class="selection">
+                                <dl>
+                                    <dt><label for="printTitle">인쇄물제목</label></dt>
+                                    <dd><input type="text" class="full" id="title" name="title" maxlength="15" placeholder="인쇄물 제목을 입력하세요."></dd>
+                                    <dt><label for="productName">상품명</label></dt>
+                                    <dd>
+                                        <select id="nc_cate_sortcode" name="nc_cate_sortcode">
+                                            <option value="003003002">디지털 카드명함</option>
+                                            <option selected="selected" value="003003001">카드명함</option>
+                                        </select>
+                                    </dd>
+                                    <dt><label for="nc_paper">종이</label></dt>
+                                    <dd class="amount">
+                                        <select id="nc_paper" name="nc_paper" style="width: 250px;">
+                                            <option>화이트카드 PET 흰색 230g</option>
+                                            <option>골드카드 PET 금색 200g</option>
+                                            <option>누드카드 PET 투명 200g</option>
+                                            <option>실버카드 PET 은색 200g</option>
+                                        </select>
+                                    </dd>
+                                    <dt><label for="color">인쇄도수</label></dt>
+                                    <dd class="amount">
+                                        <select id="nc_print_tmpt" name="nc_bef_tmpt">
+                                            <option>단면칼라4도</option>
+                                            <option selected="selected">양면칼라8도</option>
+                                        </select>
+                                    </dd>
+                                    <dt><label for="size">사이즈</label></dt>
+                                    <dd>
+                                        <select>
+                                            <option selected="selected">86*54</option>
+                                        </select>
+                                    </dd>
+                                    <dt class="amount"><label for="amount">수량</label></dt>
+                                    <dd class="amount">
+                                        <select class="_amount" id="nc_amt" name="nc_amt">
+                                            <option selected="selected" value="200">200 장</option>
+                                            <option value="400">400 장</option>
+                                            <option value="1000">1,000 장</option>
+                                        </select>
+                                        ×
+                                        <label>
+                                            <select id="count" name="nc_count">
+                                                <option>1</option>
+                                                <option>2</option>
+                                            </select> 건
+                                        </label>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                        <li>
+                            <h2 class="order_title">후가공</h2>
+                            <div class="after">
+                                <dl>
+                                    <dt>후가공</dt>
+                                    <dd class="overview">
+                                        <label><input type="checkbox" name="rounding"> 귀도리</label>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </li>
+                    </ul>
+                    <hr class="summary header">
+                    <div class="summary paymentPrice">
+                        <dl>
+                            <dt>결제금액</dt>
+                            <dd>
+                                <span class="price"><strong id="sale_price" val="0">25,000</strong> 원</span>
+                                <span class="detail">(서버 연동 없이는 실제 가격 계산이 불가합니다)</span>
+                            </dd>
+                        </dl>
+                    </div>
+                     <div class="summary file">
+                        <dl>
+                            <dt>파일</dt>
+                            <dd>
+                                <button type="button" onclick="alert('파일 업로드 기능은 서버가 필요하여 비활성화되었습니다.');" class="softC">파일 추가하기</button>
+                            </dd>
+                        </dl>
+                    </div>
+                    <footer class="action purchase">
+                        <button class="progress" onclick="alert('주문 기능은 비활성화되었습니다.');" type="button">바로 주문하기</button>
+                        <button onclick="alert('장바구니 기능은 비활성화되었습니다.');" type="button">장바구니</button>
+                    </footer>
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer class="common">
+        <p class="copyrights">COPYRIGHTS new.gprinting.co.kr ALL RIGHTS RESERVED. (정적 데모 페이지)</p>
+    </footer>
+</body>
+</html>
