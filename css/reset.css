@@ -1,1 +1,16 @@
-
+/* 기본 CSS 리셋 */
+html, body, div, span, h1, h2, h3, h4, h5, h6, p, a, img, ul, li, form, label, table, tr, th, td, article, aside, footer, header, nav, section {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    box-sizing: border-box;
+}
+body {
+    line-height: 1;
+}
+ul {
+    list-style: none;
+}
